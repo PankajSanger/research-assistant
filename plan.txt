@@ -1,0 +1,34 @@
+Chat Interface
+      ↓
+MCP Tool Layer
+      ↓
+YouTube MCP Server
+Twitter MCP Server
+Instagram MCP Server
+Reddit MCP Server
+Google MCP Server
+      ↓
+Unified Data Layer
+      ↓
+Analysis Engine
+      ↓
+Report Generator
+
+
+
+Basic Schema (With just one tool)
+User Query
+   ↓
+YouTube Search
+   ↓
+Fetch Videos
+   ↓
+Fetch Transcripts
+   ↓
+Normalize Data
+   ↓
+Basic Analysis
+   ↓
+Generate Report
+
+
