@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from typing import TypedDict,Annotated
 from langchain_core.tools import tool   
 from langgraph.prebuilt import ToolNode,tools_condition
-from mcp_server import multiply,youtube,reddit
+from mcp_server import multiply,youtube,reddit,semanticscholar
 
 #loading .env 
 load_dotenv()
@@ -27,7 +27,7 @@ def addition(first:int,second:int) -> int :
     """
     return first+second
 
-tools = [addition,multiply,youtube,reddit]
+tools = [addition,multiply,youtube,reddit,semanticscholar]
 
 #tool binding
 llm_with_tool = llm.bind_tools(tools)
@@ -35,7 +35,7 @@ llm_with_tool = llm.bind_tools(tools)
 
 #chatnode
 def ChatNode(state:ChatState):
-    "LLM node that may answer or request a tool call."
+    "LLM node that may answer or request a tool call. Also output should be structured if data is being fetched using tool. "
     message = state['messages']
     response = llm_with_tool.invoke(message)
 
