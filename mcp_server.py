@@ -64,35 +64,6 @@ def reddit(query:str):
     return post_title
 
 
-@mcp.tool
-def semanticscholar(query:str, max_results:int):
-
-    """This research scholar tool searches data for given query/keyword and for given max result output."""
-
-    url = "https://api.semanticscholar.org/graph/v1/paper/search"
-
-    params = {
-        "query": query,
-        "limit": max_results,
-        "fields": "title,authors,year,abstract,citationCount,url"
-    }
-
-    response = requests.get(url, params=params)
-
-    data = response.json()
-
-    scholar_list = []
-    for paper in data["data"]:
-
-        scholar_data = {
-        "TITLE": paper["title"],
-        "YEAR": paper.get("year"),
-        "CITATIONS": paper.get("citationCount"),
-        "URL": paper.get("url")}
-
-        scholar_list.append(scholar_data)
-
-    return scholar_list
 
 if __name__ == "__main__":
     mcp.run(transport="stdio")
