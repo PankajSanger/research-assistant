@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from typing import TypedDict,Annotated
 from langchain_core.tools import tool   
 from langgraph.prebuilt import ToolNode,tools_condition
+from mcp_server import multiply,youtube
 
 #loading .env 
 load_dotenv()
@@ -26,7 +27,7 @@ def addition(first:int,second:int) -> int :
     """
     return first+second
 
-tools = [addition]
+tools = [addition,multiply,youtube]
 
 #tool binding
 llm_with_tool = llm.bind_tools(tools)
@@ -66,7 +67,7 @@ while True:
     else:
         print("Human : ",user_message)
         response = chatbot.invoke({'messages':user_message},config=CONFIG)
-        print("AI : ",response)
+        print("AI : ",response['messages'][-1].content)
 
 
 
