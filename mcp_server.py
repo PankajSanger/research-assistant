@@ -3,6 +3,7 @@ from googleapiclient.discovery import build
 import os
 from dotenv import load_dotenv
 import pandas as pd
+import requests
 
 load_dotenv()
 
@@ -46,6 +47,27 @@ def youtube(query: str, max_results: int):
     df = pd.DataFrame(videos)
 
     return df
+
+@mcp.tool
+def reddit(query:str):
+    """Fetch reddit posts for the given query/keyword."""
+
+    url = f"https://www.reddit.com/search.json?q={query}"
+
+    headers = {
+        "User-Agent": "research-assistant"
+    }
+    response = requests.get(url, headers=headers)
+    data = response.json()
+
+    post_title = []
+    for post in data["data"]["children"]:
+        post = post["data"]
+        post_title.append(post["title"])
+
+    return post_title
+
+
 
 if __name__ == "__main__":
     mcp.run(transport="stdio")

@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from typing import TypedDict,Annotated
 from langchain_core.tools import tool   
 from langgraph.prebuilt import ToolNode,tools_condition
-from mcp_server import multiply,youtube
+from mcp_server import multiply,youtube,reddit
 
 #loading .env 
 load_dotenv()
@@ -27,7 +27,7 @@ def addition(first:int,second:int) -> int :
     """
     return first+second
 
-tools = [addition,multiply,youtube]
+tools = [addition,multiply,youtube,reddit]
 
 #tool binding
 llm_with_tool = llm.bind_tools(tools)

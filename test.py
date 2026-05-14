@@ -1,34 +1,19 @@
+import requests
 
-from googleapiclient.discovery import build
-import os
-from dotenv import load_dotenv
-import pandas as pd
+query = "AI agents"
 
-load_dotenv()
+url = f"https://www.reddit.com/search.json?q={query}"
 
-API_KEY = os.getenv("YOUTUBE_API_KEY")
+headers = {
+    "User-Agent": "research-assistant"
+}
 
-youtube = build("youtube", "v3", developerKey=API_KEY)
-request = youtube.search().list(
-            q="lion",
-            part="snippet",
-            type="video",
-            maxResults=3
-            )
-response = request.execute()
-# Store results
-videos = []
+response = requests.get(url, headers=headers)
 
-for item in response["items"]:
-    video_data = {
-        "video_id": item["id"]["videoId"],
-        "title": item["snippet"]["title"],
-        "channel": item["snippet"]["channelTitle"],
-        "published_at": item["snippet"]["publishedAt"]
-    }
+data = response.json()
 
-    videos.append(video_data)
+for post in data["data"]["children"]:
 
-# Convert to DataFrame
-df = pd.DataFrame(videos)
+    post = post["data"]
 
+    print(post["title"])
