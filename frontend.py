@@ -1,12 +1,23 @@
 import streamlit as st
-from app import chatbot
+from test import chatbot
 
 st.title('Test')
 
-user_message = st.text_input("Ask Anything")
+if ['messages'] not in st.session_state['messages']:
+    st.session_state['messages'] == []
+
+user_message = st.chat_input("Ask Anything")
 
 CONFIG = {'configurable':{'thread_id':'1'}}
 
-if st.button('Enter'):
+if user_message:
+    
+    #user
+    user = st.chat_message(name="user",avatar='user')
+    user.write(user_message)
+
     response = chatbot.invoke({'messages':user_message},config=CONFIG)
-    st.text(response['messages'].content)
+
+    #AI
+    ai = st.chat_message(name="ai",avatar='assistant')
+    ai.write(response['messages'].content)
