@@ -3,8 +3,8 @@ from test import chatbot
 
 st.title('Test')
 
-if ['messages'] not in st.session_state['messages']:
-    st.session_state['messages'] == []
+if 'messages' not in st.session_state:
+    st.session_state['messages'] = ""
 
 user_message = st.chat_input("Ask Anything")
 
@@ -16,8 +16,10 @@ if user_message:
     user = st.chat_message(name="user",avatar='user')
     user.write(user_message)
 
-    response = chatbot.invoke({'messages':user_message},config=CONFIG)
+    response = chatbot.invoke({'messages':user_message + st.session_state['messages'] },config=CONFIG)
 
     #AI
     ai = st.chat_message(name="ai",avatar='assistant')
     ai.write(response['messages'].content)
+
+    st.session_state['messages'] = user_message + response['messages'].content
